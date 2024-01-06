@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Drawing.Text;
 
 namespace RockPaperScissors
 {
@@ -9,7 +10,7 @@ namespace RockPaperScissors
             InitializeComponent();
         }
 
-       
+
 
         private void btnSelector_Click(object sender, EventArgs e)
         {
@@ -17,75 +18,41 @@ namespace RockPaperScissors
             txtYouChoose.Text = button.Text;
 
             //seleccion de cpu
+            string cpuSelection = getRandomOption();
+            txtCpuChoose.Text = cpuSelection;
+
+            //determinar ganador
+            string whoWin = DetermineWinner(txtYouChoose.Text, txtCpuChoose.Text);
+
+            //mostrar resultado
+            txtWhoWin.Text = whoWin;
+
+        }
+
+        private string getRandomOption()
+        {
 
             string[] options = { "rock", "paper", "scissor" };
             Random random = new Random();
             int optionIndex = random.Next(0, options.Length);
-            string cpuSelection = options[optionIndex];
-            txtCpuChoose.Text = cpuSelection;
+            return options[optionIndex];
 
-            // switch para ver quien gana
+        }
 
-            string whoWin = "";
+        private string DetermineWinner(string playerChoice, string cpuChoice)
+        {
 
-            switch (txtYouChoose.Text)
+            if (playerChoice == cpuChoice) { return "Its a TIE!"; }
+            if ((playerChoice == "rock" && cpuChoice == "scissor") ||
+               (playerChoice == "paper" && cpuChoice == "rock") ||
+               (playerChoice == "scissor" && cpuChoice == "paper"))
             {
-                case "rock":
-                    switch(txtCpuChoose.Text)
-                    {
-                        case "rock":
-                            whoWin = "IT´S A TIE";
-                            break;
-                        case "paper":
-                            whoWin = "CPU WIN";
-                            break;
-                        case "scissor":
-                            whoWin = "YOU WIN!!!";
-                            break;
-                    }
-                    break;
-                case "paper":
-                    switch (txtCpuChoose.Text)
-                    {
-                        case "rock":
-                            whoWin = "YOU WIN!!!";
-                            break;
-                        case "paper":
-                            whoWin = "IT´S A TIE";
-                            break;
-                        case "scissor":
-                            whoWin = "CPU WIN";
-                            break;
-                    }
-                    break;
-                case "scissor":
-                    switch (txtCpuChoose.Text)
-                    {
-                        case "rock":
-                            whoWin = "CPU WIN";
-                            break;
-                        case "paper":
-                            whoWin = "YOU WIN!!!";
-                            break;
-                        case "scissor":
-                            whoWin = "IT´S A TIE";
-                            break;
-                    }
-                    break;
-
+                return "YOU WIN!!!";
             }
+            else { return "CPU WINS"; }
 
-            txtWhoWin.Text = whoWin;
+
+
         }
     }
-
-
-                       
-
-    }
-
-    
-   
-
-
-
+}
